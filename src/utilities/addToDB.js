@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+
 const getStoredBook = () => {
     const storedBookSTR = localStorage.getItem("readList");
 
@@ -13,12 +15,32 @@ const addToStoredDB = (id) => {
     const storedBookData = getStoredBook();
 
     if (storedBookData.includes(id)) {
-        alert("Book already read");
+        Swal.fire({
+            title: "Book already read",
+            showClass: {
+                popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+                `
+            },
+            hideClass: {
+                popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+                `
+            }
+        });
     } else {
         storedBookData.push(id);
         const data = JSON.stringify(storedBookData);
         localStorage.setItem("readList", data);
-        alert("Added to read list");
+        Swal.fire({
+            title: "Added to read list",
+            icon: "success",
+            draggable: true
+        });
     }
 }
 
