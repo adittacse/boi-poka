@@ -6,6 +6,7 @@ import HeroBook from "../../components/HeroBook/HeroBook";
 
 const ListedBooks = () => {
     const [readList, setReadList] = useState([]);
+    const [sort, setSort] = useState("");
     const books = useLoaderData();
 
     useEffect(() => {
@@ -13,7 +14,40 @@ const ListedBooks = () => {
         const convertedStoredBooks = storedBooks.map(id => parseInt(id));
         const myReadList = books.filter(book => convertedStoredBooks.includes(book.bookId));
         setReadList(myReadList);
-    }, []);
+    }, [books]);
+
+    const handleSort = (type) => {
+        setSort(type);
+        if (type === "Book Name Ascending") {
+            const sortedByBookName = [...readList].sort((a, b) => a.bookName.localeCompare(b.bookName));
+            setReadList(sortedByBookName);
+        } else if (type === "Book Name Descending") {
+            const sortedByBookName = [...readList].sort((a, b) => 
+                b.bookName.localeCompare(a.bookName)
+            );
+            setReadList(sortedByBookName);
+        } else if (type === "Author") {
+            const sortedByAuthor = [...readList].sort((a, b) => 
+                a.author.localeCompare(b.author)
+            );
+            setReadList(sortedByAuthor);
+        } else if (type === "Publisher") {
+            const sortedByPublisher = [...readList].sort((a, b) => 
+                a.publisher.localeCompare(b.publisher)
+            );
+            setReadList(sortedByPublisher);
+        } else if (type === "Pages") {
+            const sortedByTotalPages = [...readList].sort((a, b) => 
+                a.totalPages - b.totalPages
+            );
+            setReadList(sortedByTotalPages);
+        } else if (type === "Ratings") {
+            const sortedByRating = [...readList].sort((a, b) => 
+                a.rating - b.rating
+            );
+            setReadList(sortedByRating);
+        }
+    }
 
     return (
         <div className="mb-[100px]">
@@ -23,11 +57,14 @@ const ListedBooks = () => {
 
             <div className="flex justify-center mb-14">
                 <div className="dropdown dropdown-start">
-                    <div tabIndex={0} role="button" className="btn-primary py-[15px] flex items-center px-5 m-1">Sort By <IoIosArrowDown className="ml-4" /></div>
+                    <div tabIndex={0} role="button" className="btn-primary py-[15px] flex items-center px-5 m-1">Sort By <IoIosArrowDown className="ml-4 mr-4" /> {sort ? sort : ""}</div>
                     <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                        <li><a>Book Name</a></li>
-                        <li><a>Author</a></li>
-                        <li><a>Publisher</a></li>
+                        <li onClick={() => handleSort("Book Name Ascending")}><a>Ascending Book Name</a></li>
+                        <li onClick={() => handleSort("Book Name Descending")}><a>Descending Book Name</a></li>
+                        <li onClick={() => handleSort("Author")}><a>Author</a></li>
+                        <li onClick={() => handleSort("Publisher")}><a>Publisher</a></li>
+                        <li onClick={() => handleSort("Pages")}><a>Pages</a></li>
+                        <li onClick={() => handleSort("Ratings")}><a>Ratings</a></li>
                     </ul>
                 </div>
             </div>
