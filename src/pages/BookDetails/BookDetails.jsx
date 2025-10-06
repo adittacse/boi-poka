@@ -1,5 +1,5 @@
-import React from 'react';
 import { useLoaderData, useParams } from 'react-router';
+import { addToStoredDB } from '../../utilities/addToDB';
 
 const BookDetails = () => {
     const { id } = useParams();
@@ -8,6 +8,10 @@ const BookDetails = () => {
     const bookDetails = books.find(book => book.bookId === parseInt(id));
     
     const { image, bookName, author, category, review, tags, totalPages, publisher, yearOfPublishing, rating } = bookDetails;
+
+    const handleMarkAsRead = (id) => {
+        addToStoredDB(id);
+    }
 
     return (
         <div className="min-h-screen mt-12 mb-12">
@@ -52,8 +56,8 @@ const BookDetails = () => {
                         </table>
                     </div>
                     <div className="flex items-center font-work-sans font-semibold text-lg">
-                        <button className="btn btn-outline px-7 py-[18px] mr-4">Read</button>
-                        <button className="btn bg-[#50B1C9] text-white px-7 py-[18px]">Wishlist</button>
+                        <button onClick={() => handleMarkAsRead(id)} className="btn btn-outline px-7 py-[18px] mr-4">Mark as Read</button>
+                        <button className="btn bg-[#50B1C9] text-white px-7 py-[18px]">Add to Wishlist</button>
                     </div>
                 </div>
             </div>
