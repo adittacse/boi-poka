@@ -1,5 +1,5 @@
 import { useLoaderData, useParams } from 'react-router';
-import { addToStoredDB } from '../../utilities/addToDB';
+import { addToStoredDB, addToWishlistDB } from '../../utilities/addToDB';
 
 const BookDetails = () => {
     const { id } = useParams();
@@ -11,6 +11,10 @@ const BookDetails = () => {
 
     const handleMarkAsRead = (id) => {
         addToStoredDB(id);
+    }
+
+    const handleAddToWishlist = (id) => {
+        addToWishlistDB(id);
     }
 
     return (
@@ -57,7 +61,7 @@ const BookDetails = () => {
                     </div>
                     <div className="flex items-center font-work-sans font-semibold text-lg">
                         <button onClick={() => handleMarkAsRead(id)} className="btn btn-outline px-7 py-[18px] mr-4">Mark as Read</button>
-                        <button className="btn bg-[#50B1C9] text-white px-7 py-[18px]">Add to Wishlist</button>
+                        <button onClick={() => handleAddToWishlist(id)} className="btn bg-[#50B1C9] text-white px-7 py-[18px]">Add to Wishlist</button>
                     </div>
                 </div>
             </div>
